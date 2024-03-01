@@ -2,15 +2,16 @@ package commands
 
 import (
 	"fmt"
-	"github/brenik/bad/internal/service"
 	"github/brenik/bad/internal/storage"
-	"golang.org/x/exp/maps"
 	"strconv"
 )
 
 func Compare() {
-	var incT = make(map[int]int)
-	var dicT = make(map[int]int)
+
+	var incaT []int
+	var dicaT []int
+	storage.Count = len(storage.Lines)
+	storage.IntLines = make([]int, storage.Count)
 
 	last, err := strconv.Atoi(storage.Lines[0])
 	if err != nil {
@@ -21,6 +22,7 @@ func Compare() {
 		if err != nil {
 			fmt.Printf("%d of type %T", n, n)
 		}
+		storage.IntLines[i] = n
 		if n > storage.Max {
 			storage.Max = n
 		}
@@ -30,38 +32,39 @@ func Compare() {
 		storage.Sum += n
 
 		if n > last {
-			incT[i] = n
+			incaT = append(incaT, n)
 		} else {
-			if len(incT) > len(storage.Inc) {
-				maps.Clear(storage.Inc)
-				storage.Inc = service.ShallowCopyMap(incT).(map[int]int)
+			if len(incaT) > len(storage.Inca) {
+				storage.Inca = nil
+				storage.Inca = incaT
 			}
-			maps.Clear(incT)
-			incT[i] = n
+			incaT = nil
+			incaT = append(incaT, n)
 		}
 
 		if n < last {
-			dicT[i] = n
+			dicaT = append(dicaT, n)
 		} else {
-			if len(dicT) > len(storage.Dic) {
-				maps.Clear(storage.Dic)
-				storage.Dic = service.ShallowCopyMap(dicT).(map[int]int)
+			if len(dicaT) > len(storage.Dica) {
+				storage.Dica = nil
+				storage.Dica = dicaT
 			}
-			maps.Clear(dicT)
-			dicT[i] = n
+			dicaT = nil
+			dicaT = append(dicaT, n)
 		}
 
 		last = n
 	}
-	if len(incT) > len(storage.Inc) {
-		maps.Clear(storage.Inc)
-		storage.Inc = service.ShallowCopyMap(incT).(map[int]int)
+
+	if len(incaT) > len(storage.Inca) {
+		storage.Inca = nil
+		storage.Inca = incaT
+		incaT = nil
 	}
-	maps.Clear(incT)
-	if len(dicT) > len(storage.Dic) {
-		maps.Clear(storage.Dic)
-		storage.Dic = service.ShallowCopyMap(dicT).(map[int]int)
+	if len(dicaT) > len(storage.Dica) {
+		storage.Dica = nil
+		storage.Dica = dicaT
+		dicaT = nil
 	}
-	maps.Clear(dicT)
 
 }

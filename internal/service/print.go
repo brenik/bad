@@ -11,9 +11,9 @@ func PrintResult() {
 	fmt.Println("Min = ", storage.Min)
 	fmt.Println("Mediana = ", storage.Med)
 	fmt.Println("Average = ", storage.Avg)
-	printMap("Increase sequence: ", storage.Inc)
+	printArray("Increase sequence: ", storage.Inca)
 	fmt.Println("")
-	printMap("Decrease sequence: ", storage.Dic)
+	printArray("Decrease sequence: ", storage.Dica)
 	fmt.Println("")
 }
 
@@ -34,6 +34,18 @@ func printMap(label string, m map[int]int) {
 			fmt.Printf(", %d", m[k])
 		}
 		i++
+	}
+
+}
+
+func printArray(label string, m []int) {
+	fmt.Printf(label)
+	for i, k := range m {
+		if i == 0 {
+			fmt.Printf("%d", k)
+		} else {
+			fmt.Printf(", %d", k)
+		}
 	}
 
 }
